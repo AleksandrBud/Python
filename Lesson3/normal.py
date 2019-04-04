@@ -10,3 +10,24 @@
 #  если скажем эти файлы потом придется передавать.
 # Так же при выводе имя должно быть полностью в верхнем регистре!
 # Подумайте вспоминая урок, как это можно сделать максимально кратко, используя возможности языка Python.
+def write_file(inf):
+    file = open('salary.txt', 'w')
+    for key, value in inf.items():
+        if value < 500000:
+            file.write('{} - {}\n'.format(key, value))
+    file.close()
+    file = open('salary.txt', 'r')
+    for line in file:
+        t_name, t_zp = line.split(' - ')
+        print('{} - {}'.format(str(t_name).upper(),round(int(t_zp)*0.87,2)))
+    file.close()
+
+names = ['Вася', 'Антон', 'Иван', 'Александр']
+zp = [15645, 21457, 12587, 600567]
+
+write_file(dict(zip(names, zp)))
+#print(persons)
+#      if map(lambda val: val < 500000, inf.values()):
+#         print(inf.values())
+# for val in inf.values():
+#     print(val)
