@@ -74,7 +74,7 @@ class Digit(object):
         elif self.numb > 9:
             return ' {}'.format(self.numb)
         else:
-            return ' {}'.format(self.numb)
+            return '  {}'.format(self.numb)
 
 
 class LineCard(object):
@@ -97,11 +97,11 @@ class LineCard(object):
 class LotoCard(object):
 
     def __init__(self):
-        self.header = '------ Ваша карточка -----'
+        self.header = '------ Ваша карточка ------'
         self.line1 = LineCard()
         self.line2 = LineCard()
         self.line3 = LineCard()
-        self.footer = '--------------------------'
+        self.footer = '---------------------------'
 
     def print_card(self):
         print(self.header)
