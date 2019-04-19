@@ -52,12 +52,10 @@ from typing import List
 class Digit(object):
 
     def __init__(self, col, count_digit):
-        #Расчет вероятности, пустая клетка или заполненая
-        self.is_digit = False
+        #Расчет вероятности, пустая клетка или заполненаяgs]
         if random.random() > (5 - count_digit)/(10 - col):
             self.numb = 0
         else:
-            self.is_digit = True
             a = 0 + (col - 1) * 10
             b = 9 + (col - 1) * 10
             if a == 0:
@@ -79,11 +77,16 @@ class Digit(object):
 
 class LineCard(object):
 
-    def __init__(self):
+    def __init__(self, ex_digits):
         self.line = []
+        self.line.__len__()
         self.col_dig = 0
         for i in range(1, 10):
-            self.line.append(Digit(i, self.col_dig))
+            digit = Digit(i, self.col_dig)
+            while digit in ex_digits:
+                digit = Digit(i, self.col_dig)
+
+            self.line.append(digit)
             if self.line[i - 1].numb != 0:
                 self.col_dig = self.col_dig + 1
 
@@ -93,14 +96,21 @@ class LineCard(object):
             o_str = o_str + self.line[i].print_digit()
         return o_str
 
+    def get_digits(self):
+        return [i.numb for i in self.line]
+
 
 class LotoCard(object):
 
     def __init__(self):
         self.header = '------ Ваша карточка ------'
-        self.line1 = LineCard()
-        self.line2 = LineCard()
-        self.line3 = LineCard()
+        self.card_digits = []
+        self.line1 = LineCard(self.card_digits )
+        self.card_digits = self.line1.get_digits()
+        self.line2 = LineCard(self.card_digits )
+        self.card_digits = self.card_digits + self.line2.get_digits()
+        self.line3 = LineCard(self.card_digits )
+        self.card_digits = self.card_digits + self.line3.get_digits()
         self.footer = '---------------------------'
 
     def print_card(self):
