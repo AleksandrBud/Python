@@ -99,11 +99,17 @@ class LineCard(object):
     def get_digits(self):
         return [i.numb for i in self.line]
 
+    def rem_dig(self, i_rem_dig):
+        for i in range(0, 9):
+            if i_rem_dig == self.line[i].numb:
+                self.line[i].numb = -1
+                break
+        pass
 
 class LotoCard(object):
 
     def __init__(self):
-        self.header = '------ Ваша карточка ------'
+        self.header = '---------------------------'
         self.card_digits = []
         self.line1 = LineCard(self.card_digits )
         self.card_digits = self.line1.get_digits()
@@ -120,16 +126,51 @@ class LotoCard(object):
         print(self.line3.print_line())
         print(self.footer)
 
+    def remove_digit(self, rem_dig):
+        self.card_digits.remove(rem_dig)
+        self.line1.rem_dig(rem_dig)
+        self.line2.rem_dig(rem_dig)
+        self.line3.rem_dig(rem_dig)
 
 class Game(object):
     def __init__(self):
+        self.collections_digit = [i for i in range(1, 91)]
+        self.name = input('Введите имя первого игрока: ')
         self.my_card = LotoCard()
+        self.name_ii = input('Введите имя второго игрока: ')
         self.ii_card = LotoCard()
 
-    def print_card(self):
-        self.my_card.print_card()
-        self.ii_card.print_card()
+    def check_digit_in_card(self, card, search_digit, otvet):
+        if search_digit in card.card_digits and otvet == 'y':
+            #Зачеркнуть цифру
+            card.remove_digit(search_digit)
+            return True
+        elif search_digit not in card.card_digits and otvet == 'n':
+            return True
+        else:
+            print('{} проиграл'.format(self.name))
+            return False
 
+    def print_card(self):
+        while True:
+            print(self.name)
+            self.my_card.print_card()
+            print()
+            print(self.name_ii)
+            self.ii_card.print_card()
+            print()
+            num = random.randint(1, 91)
+            while num not in self.collections_digit:
+                num = random.randint(1, 91)
+            self.collections_digit.remove(num)#Удаляем боченок из списка
+            print(num)
+            print()
+            inp = input('{} зачеркнуть цифру? (y/n)'.format(self.name))
+            if not self.check_digit_in_card(self.my_card, num, inp):
+                break
+            inp = input('{} зачеркнуть цифру? (y/n)'.format(self.name_ii))
+            if not self.check_digit_in_card(self.ii_card, num, inp):
+                break
 
 g1 = Game()
 g1.print_card()
