@@ -72,7 +72,7 @@ class Digit(object):
         elif self.numb > 9:
             return ' {}'.format(self.numb)
         else:
-            return '  {}'.format(self.numb)
+            return ' {} '.format(self.numb)
 
 
 class LineCard(object):
@@ -168,8 +168,17 @@ class Game(object):
             inp = input('{} зачеркнуть цифру? (y/n)'.format(self.name))
             if not self.check_digit_in_card(self.my_card, num, inp):
                 break
+            if self.my_card.card_digits.__len__() <= 0:
+                print('{} победил!')
+                break
             inp = input('{} зачеркнуть цифру? (y/n)'.format(self.name_ii))
             if not self.check_digit_in_card(self.ii_card, num, inp):
+                break
+            if self.ii_card.card_digits.__len__() <= 0:
+                print('{} победил!')
+                break
+            if self.collections_digit.__len__() <= 0:
+                print('Игра окончена боченков не осталось')
                 break
 
 g1 = Game()
